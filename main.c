@@ -65,7 +65,7 @@ char verificaGanhador(Tboard *board){
             ganhador = board->board[0][i];
     }
 
-    
+
     // Ganhador na Vertical
      for(i=0; i<3; i++){
         if(iguais3(
@@ -183,7 +183,7 @@ void imprimirBoard(Tboard *board){
     for(int i=0; i<3; i++){
         if(i!=2)
             printf("\t\t_%c_|_%c_|_%c_\n", board->board[i][0], board->board[i][1], board->board[i][2]);
-        else 
+        else
             printf("\t\t %c | %c | %c ", board->board[i][0], board->board[i][1], board->board[i][2]);
     }
 }
@@ -209,10 +209,11 @@ void intro(){
     printf("\t\t\t╱╱┃┃╱┃┃╱┃┃╭━━╯\n");
     printf("\t\t\t╱╱┃┃╱┃╰━╯┃╰━━╮\n");
     printf("\t\t\t╱╱╰╯╱╰━━━┻━━━╯\n\n");
-    printf("@Author: CAVALCANTE, Josias B. F.\n\n\n");
+    printf("@Author: CAVALCANTE, Josias B. F.\n\n\n\n\n");
     system("pause");
     system("cls");
 }
+
 
 short int movimentoValido(Tboard *board, int i, int j){
     if(board->board[i][j] == EMPTY)
@@ -233,10 +234,26 @@ int main(){
 
     while(loopAll){
         quadro = createBoard();
+        system("cls");
+        printf("Voce gostaria de comecar primeiro? (0/1)\n");
+        short int start;
+        scanf("%d", &start);
+        while(start != 0 && start != 1){
+            system("cls");
+            printf("Invalido. Responda com 0 (para nao) ou 1 (para sim).\n");
+            printf("Voce gostaria de comecar primeiro? (0/1)\n");
+            scanf("%d", &start);
+        }
+        system("cls");
+        if(!start){
+            quadro->jogadorAtual = IA;
+            melhorMovimento(quadro);
+        }
 
         while(loopGame){
             char comoTa = verificaGanhador(quadro);
             if(comoTa!=EMPTY){
+                printf("\n");
                 imprimirBoard(quadro);
                 if(comoTa == HUMAN)
                     printf("\nPARABENS, VOCE VENCEU!\n");
@@ -244,18 +261,28 @@ int main(){
                     printf("\nPERDEU, OTARIO!\n");
                 else if(comoTa == VELHA)
                     printf("\nVELHOU, OTARIO!\n");
-                
-                printf("Gostaria de jogar de novo? [0/1]\n");
+
+                printf("Gostaria de jogar de novo? (0/1)\n");
                 scanf("%d",&f);
+                while(f != 0 && f != 1){
+                    system("cls");
+                    printf("Invalido. Responda com 0 (para nao) ou 1 (para sim).\n");
+                    printf("Gostaria de jogar de novo? (0/1)\n");
+                    scanf("%d",&f);
+                }
                 if(f==1){
                     quadro = createBoard();
                     break;
                 }
-                else if(f==0)
+                else if(f==0){
+                    printf("\n\t\t Voce acabou de usar um programa de CAVALCANTE, J.B.C.\n\t\t\tObrigado!\n\n");
+                    system("pause");
                     return 0;
+                }
             }
 
             else if(quadro->jogadorAtual == HUMAN){
+                printf("\n");
                 imprimirBoard(quadro);
                 printf("\n\nDigite a linha e a coluna: (ex: 2 3)\n");
                 scanf("%d %d", &x, &y);
